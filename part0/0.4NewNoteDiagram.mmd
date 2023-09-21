@@ -1,33 +1,33 @@
 sequenceDiagram
-    participant browser
-    participant server
+    participant Browser
+    participant Server
 
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-    activate server
-    server-->>browser: Status code 302
-    deactivate server
+    Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate Server
+    Server-->>Browser: Status code 302
+    deactivate Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate Server
+    Server-->>Browser: HTML document
+    deactivate Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: CSS file
-    deactivate server
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: JavaScript file
-    deactivate server
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
 
-    Note right of browser: Execute the Js that fetch theJSON from the server that includes the data to be displayed
+    Note right of Browser: Execute the Js that fetch theJSON from the Server that includes the data to be displayed
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{"content":"h","date":"2023-09-21T17:30:08.879Z"}, ... ]
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate Server
+    Server-->>Browser: [{"content":"h","date":"2023-09-21T17:30:08.879Z"}, ... ]
     
-    deactivate server
+    deactivate Server
 
-    Note right of browser: The browser executes the callback function that renders the notes
+    Note right of Browser: The Browser executes the callback function that renders the notes
