@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant Browser
+    participant Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server-->>Browser: Basic HTML without any notes only a Headder, button and an input field
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate Server
+    Server-->>Browser: JavaScript file
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate Server
+    Server-->>Browser: Json file with the notes to show in the browser
+    deactivate Server
+
+    Browser-->Browser: Rewrite the page with the notes of the json file

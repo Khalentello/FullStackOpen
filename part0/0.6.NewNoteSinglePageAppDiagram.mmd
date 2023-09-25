@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    User->>Browser: Writing something into the text field
+    Browser->>User: Text Show in the text field
+
+    User->>Browser: Click in the save button
+    
+    Browser->>Server: Post the new note {content:...,date:...}
+    Browser->>Browser: Rewrite the page with the new note, but not fetching from the server
+
+    Browser->>User: Show the new page with the new item

@@ -1,13 +1,12 @@
 sequenceDiagram
-    participant User
-    participant Browser
-    participant Server
+participant User
+participant Browser
+participant Server
 
     User->>Browser: Writing something into the text field
     Browser-->>User: Text Show in the text field
 
-    User->>Browser: Click in the submmit button 
-    
+    User->>Browser: Click in the submit button
     Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate Server
     Server-->>Browser: Status code 302
@@ -33,7 +32,7 @@ sequenceDiagram
     Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate Server
     Server-->>Browser: [{"content":"h","date":"2023-09-21T17:30:08.879Z"}, ... ]
-    
+
     deactivate Server
 
     Note right of Browser: The Browser executes the callback function that renders the notes
