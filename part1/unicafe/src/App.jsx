@@ -1,7 +1,30 @@
 import { useState } from "react";
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
+
+const StatisticsField = ({ staticText, statistic, extra }) => (
+  <p>
+    {staticText} {statistic} {extra}
+  </p>
+);
+
+const Statistics = ({ good, neutral, bad, total, avg, percent }) => (
+  <>
+    <StatisticsField staticText={"Good:"} statistic={good} />
+    <StatisticsField staticText={"Neutral:"} statistic={neutral} />
+    <StatisticsField staticText={"Bad:"} statistic={bad} />
+    <StatisticsField staticText={"All:"} statistic={total} />
+    <StatisticsField staticText={"Average:"} statistic={avg} />
+    <StatisticsField
+      staticText={"Positive: "}
+      statistic={percent}
+      extra={"%"}
+    />
+  </>
+);
+
 function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -50,12 +73,14 @@ function App() {
       <Button handleClick={handleNeutral} text={"Neutral"} />
       <Button handleClick={handleBad} text={"Bad"} />
       <h2>Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: {avg}</p>
-      <p>Positive: {percent} %</p>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        total={total}
+        avg={avg}
+        percent={percent}
+      />
     </>
   );
 }
