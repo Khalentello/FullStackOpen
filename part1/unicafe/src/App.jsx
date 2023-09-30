@@ -10,20 +10,25 @@ const StatisticsField = ({ staticText, statistic, extra }) => (
   </p>
 );
 
-const Statistics = ({ good, neutral, bad, total, avg, percent }) => (
-  <>
-    <StatisticsField staticText={"Good:"} statistic={good} />
-    <StatisticsField staticText={"Neutral:"} statistic={neutral} />
-    <StatisticsField staticText={"Bad:"} statistic={bad} />
-    <StatisticsField staticText={"All:"} statistic={total} />
-    <StatisticsField staticText={"Average:"} statistic={avg} />
-    <StatisticsField
-      staticText={"Positive: "}
-      statistic={percent}
-      extra={"%"}
-    />
-  </>
-);
+const Statistics = ({ good, neutral, bad, total, avg, percent }) => {
+  if (total == 0) {
+    return <p>No feedback given</p>;
+  }
+  return (
+    <>
+      <StatisticsField staticText={"Good:"} statistic={good} />
+      <StatisticsField staticText={"Neutral:"} statistic={neutral} />
+      <StatisticsField staticText={"Bad:"} statistic={bad} />
+      <StatisticsField staticText={"All:"} statistic={total} />
+      <StatisticsField staticText={"Average:"} statistic={avg} />
+      <StatisticsField
+        staticText={"Positive: "}
+        statistic={percent}
+        extra={"%"}
+      />
+    </>
+  );
+};
 
 function App() {
   const [good, setGood] = useState(0);
