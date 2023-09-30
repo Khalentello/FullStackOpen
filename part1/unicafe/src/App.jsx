@@ -4,9 +4,9 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const StatisticsField = ({ staticText, statistic, extra }) => (
+const StatisticsField = ({ staticText, value, extra }) => (
   <p>
-    {staticText} {statistic} {extra}
+    {staticText} {value} {extra}
   </p>
 );
 
@@ -16,16 +16,12 @@ const Statistics = ({ good, neutral, bad, total, avg, percent }) => {
   }
   return (
     <>
-      <StatisticsField staticText={"Good:"} statistic={good} />
-      <StatisticsField staticText={"Neutral:"} statistic={neutral} />
-      <StatisticsField staticText={"Bad:"} statistic={bad} />
-      <StatisticsField staticText={"All:"} statistic={total} />
-      <StatisticsField staticText={"Average:"} statistic={avg} />
-      <StatisticsField
-        staticText={"Positive: "}
-        statistic={percent}
-        extra={"%"}
-      />
+      <StatisticsField staticText={"Good:"} value={good} />
+      <StatisticsField staticText={"Neutral:"} value={neutral} />
+      <StatisticsField staticText={"Bad:"} value={bad} />
+      <StatisticsField staticText={"All:"} value={total} />
+      <StatisticsField staticText={"Average:"} value={avg} />
+      <StatisticsField staticText={"Positive: "} value={percent} extra={"%"} />
     </>
   );
 };
