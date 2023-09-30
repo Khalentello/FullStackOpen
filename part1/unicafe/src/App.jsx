@@ -15,14 +15,34 @@ const Statistics = ({ good, neutral, bad, total, avg, percent }) => {
     return <p>No feedback given</p>;
   }
   return (
-    <>
-      <StatisticsField staticText={"Good:"} value={good} />
-      <StatisticsField staticText={"Neutral:"} value={neutral} />
-      <StatisticsField staticText={"Bad:"} value={bad} />
-      <StatisticsField staticText={"All:"} value={total} />
-      <StatisticsField staticText={"Average:"} value={avg} />
-      <StatisticsField staticText={"Positive: "} value={percent} extra={"%"} />
-    </>
+    <table>
+      <tbody>
+        <tr>
+          <th>Good:</th>
+          <td>{good}</td>
+        </tr>
+        <tr>
+          <th>Neutral:</th>
+          <td>{neutral}</td>
+        </tr>
+        <tr>
+          <th>Bad:</th>
+          <td>{bad}</td>
+        </tr>
+        <tr>
+          <th>All:</th>
+          <td>{total}</td>
+        </tr>
+        <tr>
+          <th>Average</th>
+          <td>{avg}</td>
+        </tr>
+        <tr>
+          <th>Positive:</th>
+          <td>{percent} %</td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
