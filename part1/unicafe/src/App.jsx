@@ -4,12 +4,6 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const StatisticsField = ({ staticText, value, extra }) => (
-  <p>
-    {staticText} {value} {extra}
-  </p>
-);
-
 const Statistics = ({ good, neutral, bad, total, avg, percent }) => {
   if (total == 0) {
     return <p>No feedback given</p>;
