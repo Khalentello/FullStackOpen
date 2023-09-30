@@ -4,6 +4,8 @@ const Button = ({ handleClick, text }) => (
 );
 const App = () => {
   const [selected, setSelected] = useState(0);
+  const [popular, setPopular] = useState(0);
+
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -14,6 +16,7 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
     "The only way to go fast, is to go well.",
   ];
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
   const randomAnecdote = () => {
     let newAnecdote = Math.floor(Math.random() * (anecdotes.length - 1));
     console.log("entra con " + newAnecdote + " seleccionada: " + selected);
@@ -23,11 +26,24 @@ const App = () => {
     }
     setSelected(newAnecdote);
   };
+  const voteAnecdote = () => {
+    const newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+    console.log(newVotes);
+    const newPopular = newVotes.indexOf(Math.max(...newVotes));
+    setPopular(newPopular);
+  };
 
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <section>{anecdotes[selected]}</section>
-      <Button text={"Next Anecdote"} handleClick={randomAnecdote} />
+      <div>Has {votes[selected]} votes</div>
+      <Button text={"Vote 👍"} handleClick={voteAnecdote} />
+      <Button text={"Next Anecdote ⏭"} handleClick={randomAnecdote} />
+      <h2>Anecdote with most votes</h2>
+      <section>{anecdotes[popular]}</section>
     </>
   );
 };
