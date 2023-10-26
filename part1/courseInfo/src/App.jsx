@@ -11,7 +11,7 @@ const App = () => {
       },
       { name: "State of a component", exercises: 14, id: crypto.randomUUID() },
       { name: "Extra 1", exercises: 4, id: crypto.randomUUID() },
-      { name: "Extra 2", exercises: 9, id: crypto.randomUUID() },
+      { name: "Extra 2", exercises: 15, id: crypto.randomUUID() },
     ],
   };
 
@@ -34,12 +34,21 @@ const App = () => {
       </>
     );
   };
+  const Total = (props) => {
+    const totalExercise = props.course.parts
+      .map((part) => part.exercises)
+      .reduce((accumulator, currentNumber) => {
+        return accumulator + currentNumber;
+      });
+    return <p>Total of {totalExercise} exercises</p>;
+  };
 
   const Course = (props) => {
     return (
       <>
         <Header course={props.course} />
         <Content course={props.course} />
+        <Total course={props.course} />
       </>
     );
   };
