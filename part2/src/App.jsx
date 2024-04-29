@@ -1,13 +1,9 @@
 /* eslint-disable react/prop-types */
-// const Total = (props) => {
-//   return <p>Number of exercises {props.sumOfExercises}</p>;
-// };
 
 const Header = ({ course }) => {
   return <h1>{course.name}</h1>;
 };
 const Content = ({ course }) => {
-  console.log(course, "$$");
   return course.map((part) => (
     <Part
       key={`Part key ${part.id}`}
@@ -23,11 +19,18 @@ const Part = (props) => {
     </p>
   );
 };
+const Total = ({ course }) => {
+  const totalCourses = course.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.exercises;
+  }, 0);
+  return <b>Total of {totalCourses} courses</b>;
+};
 const Course = ({ courses }) => {
   return courses.map((course) => (
     <>
       <Header key={`Header key ${course.id}`} course={course} />
       <Content course={course.parts} />
+      <Total course={course.parts} />
     </>
   ));
 };
