@@ -1,39 +1,5 @@
 /* eslint-disable react/prop-types */
-
-const Header = ({ course }) => {
-  return <h1>{course.name}</h1>;
-};
-const Content = ({ course }) => {
-  return course.map((part) => (
-    <Part
-      key={`Part key ${part.id}`}
-      part={part.name}
-      exercises={part.exercises}
-    />
-  ));
-};
-const Part = (props) => {
-  return (
-    <p>
-      {props.part}: {props.exercises}
-    </p>
-  );
-};
-const Total = ({ course }) => {
-  const totalCourses = course.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.exercises;
-  }, 0);
-  return <b>Total of {totalCourses} courses</b>;
-};
-const Course = ({ courses }) => {
-  return courses.map((course) => (
-    <>
-      <Header key={`Header key ${course.id}`} course={course} />
-      <Content course={course.parts} />
-      <Total course={course.parts} />
-    </>
-  ));
-};
+import Course from "../components/course";
 
 const App = () => {
   const courses = [
@@ -65,12 +31,28 @@ const App = () => {
         {
           name: "Routing",
           exercises: 3,
-          id: 1,
+          id: 4,
         },
         {
           name: "Middlewares",
           exercises: 7,
-          id: 2,
+          id: 5,
+        },
+      ],
+    },
+    {
+      name: "Test 3",
+      id: 3,
+      parts: [
+        {
+          name: "Test3.3",
+          exercises: 10,
+          id: 6,
+        },
+        {
+          name: "test3.2",
+          exercises: 200,
+          id: 7,
         },
       ],
     },
