@@ -7,12 +7,20 @@ const App = () => {
   const addPerson = (event) => {
     console.log("Click Submit");
     event.preventDefault();
-    const nameObj = {
-      name: newName,
-      key: persons.length + 1,
-    };
-    setPersons(persons.concat(nameObj));
-    setNewName("New?");
+
+    const arrNames = persons.map((person) => person.name.toLowerCase());
+    console.log(arrNames);
+
+    if (arrNames.includes(newName.toLowerCase())) {
+      alert(`${newName} is already added to the phone book`);
+    } else {
+      const nameObj = {
+        name: newName,
+        key: persons.length + 1,
+      };
+      setPersons(persons.concat(nameObj));
+      setNewName("New?");
+    }
   };
 
   const handleNameChange = (event) => {
@@ -25,11 +33,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
+          Name: <input value={newName} onChange={handleNameChange} />
         </div>
         {/* <div>debug: {persons.name}</div> */}
         <div>
-          <button type="submit">Add</button>
+          {newName ? <button type="submit">Add</button> : "Write a name"}
         </div>
       </form>
       <h2>Numbers</h2>
