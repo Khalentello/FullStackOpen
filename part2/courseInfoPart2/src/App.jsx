@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import Course from "../components/course";
+import Course from "./components/course";
 
 const App = () => {
   const courses = [
