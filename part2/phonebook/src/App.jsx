@@ -1,18 +1,22 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", key: 0, phone: 1234 },
+  const [person, setPerson] = useState([
+    { name: "Arto Hellas", number: "040-123456", id: 1 },
+    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
+    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
+    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [newSearchName, setSearchName] = useState("");
 
   const addPerson = (event) => {
     console.log("Click Submit");
     event.preventDefault();
 
-    const arrNames = persons.map((person) => person.name.toLowerCase());
-    const arrNum = persons.map((person) => person.phone);
+    const arrNames = person.map((person) => person.name.toLowerCase());
+    const arrNum = person.map((person) => person.number);
     console.log(arrNum);
 
     if (arrNames.includes(newName.toLowerCase())) {
@@ -21,11 +25,11 @@ const App = () => {
       alert(`Phone number ${newNumber} is already added to the phone book`);
     } else {
       const nameObj = {
-        key: persons.length + 1,
+        id: person.length + 1,
         name: newName,
-        phone: newNumber,
+        number: newNumber,
       };
-      setPersons(persons.concat(nameObj));
+      setPerson(person.concat(nameObj));
       setNewName("New?");
     }
   };
@@ -41,7 +45,17 @@ const App = () => {
     console.log("Previous", newNumber);
     console.log("New", event.target.value);
   };
-
+  const handleNameSearchChange = (event) => {
+    setSearchName(event.target.value);
+    console.log("Previous", newSearchName);
+    console.log("New", event.target.value);
+  };
+  const contactsToShow =
+    newSearchName.length <= 0
+      ? person
+      : person.filter((person) =>
+          person.name.toLowerCase().includes(newSearchName.toLowerCase())
+        );
   return (
     <div>
       <h2>Phonebook</h2>
@@ -52,7 +66,7 @@ const App = () => {
         <div>
           Phone: <input value={newNumber} onChange={handleNumberChange} />
         </div>
-        {/* <div>debug: {persons.name}</div> */}
+        {/* <div>debug: {person}</div> */}
         <div>
           {newName && newNumber ? (
             <button type="submit">Add</button>
@@ -61,11 +75,16 @@ const App = () => {
           )}
         </div>
       </form>
+      <h2>Search</h2>
+      <div>
+        By Name:{" "}
+        <input value={newSearchName} onChange={handleNameSearchChange} />
+      </div>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
-          <li key={person.key}>
-            {person.name}:{person.phone}
+        {contactsToShow.map((person) => (
+          <li key={person.id}>
+            {person.name}: {person.number}
           </li>
         ))}
       </ul>
