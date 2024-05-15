@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Person from "./components/Person";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
 
 const App = () => {
   const [person, setPerson] = useState([
@@ -7,6 +10,7 @@ const App = () => {
     { name: "Dan Abramov", number: "12-43-234345", id: 3 },
     { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
   ]);
+
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
@@ -17,7 +21,7 @@ const App = () => {
 
     const arrNames = person.map((person) => person.name.toLowerCase());
     const arrNum = person.map((person) => person.number);
-    console.log(arrNum);
+    // console.log(arrNum);
 
     if (arrNames.includes(newName.toLowerCase())) {
       alert(`The person ${newName} is already added to the phone book`);
@@ -31,24 +35,25 @@ const App = () => {
       };
       setPerson(person.concat(nameObj));
       setNewName("New?");
+      setNewNumber("");
     }
   };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
-    console.log("Previous", newName);
-    console.log("New", event.target.value);
+    // console.log("Previous", newName);
+    // console.log("New", event.target.value);
   };
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
-    console.log("Previous", newNumber);
-    console.log("New", event.target.value);
+    // console.log("Previous", newNumber);
+    // console.log("New", event.target.value);
   };
   const handleNameSearchChange = (event) => {
     setSearchName(event.target.value);
-    console.log("Previous", newSearchName);
-    console.log("New", event.target.value);
+    //   console.log("Previous", newSearchName);
+    //   console.log("New", event.target.value);
   };
   const contactsToShow =
     newSearchName.length <= 0
@@ -56,39 +61,36 @@ const App = () => {
       : person.filter((person) =>
           person.name.toLowerCase().includes(newSearchName.toLowerCase())
         );
+
+  const propsPerson = {
+    newName: newName,
+    handleName: handleNameChange,
+    newNumber: newNumber,
+    handlePhone: handleNumberChange,
+  };
   return (
-    <div>
+    <>
+      {/* <div>debug: {person}</div> */}
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
-        <div>
-          Name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          Phone: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        {/* <div>debug: {person}</div> */}
+        <PersonForm props={propsPerson} />
         <div>
           {newName && newNumber ? (
             <button type="submit">Add</button>
           ) : (
-            "Write a name"
+            "Type the info"
           )}
         </div>
       </form>
       <h2>Search</h2>
-      <div>
-        By Name:{" "}
-        <input value={newSearchName} onChange={handleNameSearchChange} />
-      </div>
+      <Filter value={newSearchName} onChange={handleNameSearchChange} />
       <h2>Numbers</h2>
       <ul>
         {contactsToShow.map((person) => (
-          <li key={person.id}>
-            {person.name}: {person.number}
-          </li>
+          <Person key={person.id} person={person} />
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 
