@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Person from "./components/Person";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
-import axios from "axios";
+import serverCommands from "./services/notes";
 
 const App = () => {
   const [person, setPerson] = useState([]);
@@ -12,13 +12,11 @@ const App = () => {
   const [newSearchName, setSearchName] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPerson(response.data);
-    });
+    serverCommands.getAll().then((data) => setPerson(data));
   }, []);
 
   const addPerson = (event) => {
-    console.log("Click Submit");
+    // console.log("Click Submit");
     event.preventDefault();
 
     const arrNames = person.map((person) => person.name.toLowerCase());
@@ -30,14 +28,15 @@ const App = () => {
     } else if (arrNum.includes(newNumber)) {
       alert(`Phone number ${newNumber} is already added to the phone book`);
     } else {
-      const nameObj = {
-        id: person.length + 1,
+      const personObj = {
         name: newName,
         number: newNumber,
       };
-      setPerson(person.concat(nameObj));
-      setNewName("New?");
-      setNewNumber("");
+      serverCommands.create(personObj).then((returnedPerson) => {
+        setPerson(person.concat(returnedPerson));
+        setNewName("New?");
+        setNewNumber("");
+      });
     }
   };
 
