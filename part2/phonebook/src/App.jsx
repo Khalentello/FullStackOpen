@@ -15,22 +15,26 @@ const App = () => {
   }, []);
 
   const addPerson = (event) => {
-    // console.log("Click Submit");
     event.preventDefault();
 
-    const arrNames = person.map((person) => person.name.toLowerCase());
-    const arrNum = person.map((person) => person.number);
-    // console.log(arrNum);
+    const personObj = {
+      name: newName,
+      number: newNumber,
+    };
 
-    if (arrNames.includes(newName.toLowerCase())) {
-      alert(`The person ${newName} is already added to the phone book`);
-    } else if (arrNum.includes(newNumber)) {
-      alert(`Phone number ${newNumber} is already added to the phone book`);
+    const data = person.find((p) => p.name === newName);
+
+    if (data) {
+      if (
+        window.confirm(
+          `Change number of ${data.name} from ${data.number} to ${newNumber}?`
+        )
+      ) {
+        serverCommands.update(data.id, personObj).then((returnedNote) => {
+          setPerson(person.map((n) => (n.id !== data.id ? n : returnedNote)));
+        });
+      }
     } else {
-      const personObj = {
-        name: newName,
-        number: newNumber,
-      };
       serverCommands.create(personObj).then((returnedPerson) => {
         setPerson(person.concat(returnedPerson));
         setNewName("New?");
@@ -40,14 +44,14 @@ const App = () => {
   };
   const deletePerson = (id) => {
     const data = person.find((n) => n.id === id);
-    window.confirm(`Delete ${data.name}?`)
-      ? serverCommands
-          .deletePerson(id)
-          .then(() => {
-            setPerson(person.filter((p) => p.id !== id));
-          })
-          .catch((error) => console.log(`Something happened: ${error}`))
-      : console.log("false");
+    if (window.confirm(`Delete ${data.name}?`)) {
+      serverCommands
+        .deletePerson(id)
+        .then(() => {
+          setPerson(person.filter((p) => p.id !== id));
+        })
+        .catch((error) => console.log(`Something happened: ${error}`));
+    }
   };
 
   const handleNameChange = (event) => {
