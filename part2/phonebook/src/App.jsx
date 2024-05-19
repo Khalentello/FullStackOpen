@@ -6,7 +6,6 @@ import serverCommands from "./services/notes";
 
 const App = () => {
   const [person, setPerson] = useState([]);
-
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
@@ -38,6 +37,17 @@ const App = () => {
         setNewNumber("");
       });
     }
+  };
+  const deletePerson = (id) => {
+    const data = person.find((n) => n.id === id);
+    window.confirm(`Delete ${data.name}?`)
+      ? serverCommands
+          .deletePerson(id)
+          .then(() => {
+            setPerson(person.filter((p) => p.id !== id));
+          })
+          .catch((error) => console.log(`Something happened: ${error}`))
+      : console.log("false");
   };
 
   const handleNameChange = (event) => {
@@ -88,7 +98,11 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {contactsToShow.map((person) => (
-          <Person key={person.id} person={person} />
+          <Person
+            key={person.id}
+            person={person}
+            deletePerson={() => deletePerson(person.id)}
+          />
         ))}
       </ul>
     </>
