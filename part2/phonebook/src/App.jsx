@@ -3,12 +3,14 @@ import Person from "./components/Person";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import serverCommands from "./services/notes";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [person, setPerson] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
+  const [alertMessage, setAlertMessage] = useState();
 
   useEffect(() => {
     serverCommands.getAll().then((data) => setPerson(data));
@@ -33,12 +35,24 @@ const App = () => {
         serverCommands.update(data.id, personObj).then((returnedNote) => {
           setPerson(person.map((n) => (n.id !== data.id ? n : returnedNote)));
         });
+        setAlertMessage(
+          `Changed number of ${data.name} with the number ${newNumber}`
+        );
+        setTimeout(() => {
+          setAlertMessage(null);
+        }, 2000);
       }
     } else {
       serverCommands.create(personObj).then((returnedPerson) => {
         setPerson(person.concat(returnedPerson));
         setNewName("New?");
         setNewNumber("");
+        setAlertMessage(
+          `Added ${returnedPerson.name} with the number ${returnedPerson.number}`
+        );
+        setTimeout(() => {
+          setAlertMessage(null);
+        }, 2000);
       });
     }
   };
@@ -87,6 +101,7 @@ const App = () => {
     <>
       {/* <div>debug: {person}</div> */}
       <h2>Phonebook</h2>
+      <Notification message={alertMessage} />
       <form onSubmit={addPerson}>
         <PersonForm props={propsPerson} />
         <div>

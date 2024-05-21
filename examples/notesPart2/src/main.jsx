@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import react from "react";
+import "./index.css";
 
 //NOT A GOOD PRACTICE TO FETCH DATA FROM A SERVER BUT IT WORKS
 // axios.get("http://localhost:3001/notes").then((response) => {
