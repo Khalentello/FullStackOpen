@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
   const [alertMessage, setAlertMessage] = useState();
+  const [typeMessage, setTypeMessage] = useState();
 
   useEffect(() => {
     serverCommands.getAll().then((data) => setPerson(data));
@@ -32,15 +33,30 @@ const App = () => {
           `Change number of ${data.name} from ${data.number} to ${newNumber}?`
         )
       ) {
-        serverCommands.update(data.id, personObj).then((returnedNote) => {
-          setPerson(person.map((n) => (n.id !== data.id ? n : returnedNote)));
-        });
-        setAlertMessage(
-          `Changed number of ${data.name} with the number ${newNumber}`
-        );
-        setTimeout(() => {
-          setAlertMessage(null);
-        }, 2000);
+        serverCommands
+          .update(data.id, personObj)
+          .then((returnedNote) => {
+            setPerson(person.map((n) => (n.id !== data.id ? n : returnedNote)));
+            setAlertMessage(
+              `Changed number of ${data.name} with the number ${newNumber}`
+            );
+            setTypeMessage("notification");
+            setTimeout(() => {
+              setAlertMessage(null);
+              setTypeMessage(null);
+            }, 2000);
+          })
+          .catch((error) => {
+            setAlertMessage(
+              `${data.name} has already been deleted from the server`
+            );
+            setTypeMessage("error");
+            console.log(`error: ${error}`);
+            setTimeout(() => {
+              setAlertMessage(null);
+              setTypeMessage(null);
+            }, 2000);
+          });
       }
     } else {
       serverCommands.create(personObj).then((returnedPerson) => {
@@ -50,8 +66,10 @@ const App = () => {
         setAlertMessage(
           `Added ${returnedPerson.name} with the number ${returnedPerson.number}`
         );
+        setTypeMessage("notification");
         setTimeout(() => {
           setAlertMessage(null);
+          setTypeMessage(null);
         }, 2000);
       });
     }
@@ -70,19 +88,13 @@ const App = () => {
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
-    // console.log("Previous", newName);
-    // console.log("New", event.target.value);
   };
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
-    // console.log("Previous", newNumber);
-    // console.log("New", event.target.value);
   };
   const handleNameSearchChange = (event) => {
     setSearchName(event.target.value);
-    //   console.log("Previous", newSearchName);
-    //   console.log("New", event.target.value);
   };
   const contactsToShow =
     newSearchName.length <= 0
@@ -101,7 +113,7 @@ const App = () => {
     <>
       {/* <div>debug: {person}</div> */}
       <h2>Phonebook</h2>
-      <Notification message={alertMessage} />
+      <Notification message={alertMessage} type={typeMessage} />
       <form onSubmit={addPerson}>
         <PersonForm props={propsPerson} />
         <div>

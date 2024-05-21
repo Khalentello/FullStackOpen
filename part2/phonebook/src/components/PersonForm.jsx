@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 function PersonForm({ props }) {
-  // console.log(props);
   return (
     <>
       <div>

@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 
 function Filter(props) {
-  // console.log(props);
   return (
     <>
       <div>
