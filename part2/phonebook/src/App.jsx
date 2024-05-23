@@ -6,7 +6,7 @@ import serverCommands from "./services/notes";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const [person, setPerson] = useState([]);
+  const [person, setPerson] = useState(null);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
