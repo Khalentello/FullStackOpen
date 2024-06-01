@@ -1,7 +1,10 @@
 //server with express
 const express = require("express");
 const app = express();
-app.use(express.json());
+const cors = require("cors");
+
+app.use(cors());
+app.use(express.static("dist"));
 
 let notes = [
   { id: 1, content: "HTML is easy", important: true },
@@ -13,17 +16,27 @@ let notes = [
   },
 ];
 
+const requestLogger = (request, response, next) => {
+  console.log("Method:", request.method);
+  console.log("Path:  ", request.path);
+  console.log("Body:  ", request.body);
+  console.log("---");
+  next();
+};
+
+app.use(express.json());
+// app.use(requestLogger);
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
 app.get("/api/notes", (request, response) => {
   response.json(notes);
-});
-
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
 
 app.get("/api/notes/:id", (request, response) => {
@@ -63,18 +76,25 @@ app.post("/api/notes/", (request, response) => {
 
   response.json(note);
 });
+
+app.use(unknownEndpoint);
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 /*
   const http = require("http");
   Basic server that return a plain text
   const app = http.createServer((request, response) => {
       response.writeHead(200, { 'Content-Type': 'text/plain' })
       response.end('Hello World')
-  })
+    })
 */
 
 /*
 a basic server that returns a json object
-  let notes = [
+let notes = [
     { id: 1, content: "HTML is easy", important: true },
     { id: 2, content: "Browser can execute only JavaScript", important: false },
     {

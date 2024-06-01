@@ -6,7 +6,7 @@ import serverCommands from "./services/notes";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const [person, setPerson] = useState(null);
+  const [person, setPerson] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearchName, setSearchName] = useState("");
@@ -97,7 +97,7 @@ const App = () => {
     setSearchName(event.target.value);
   };
   const contactsToShow =
-    newSearchName.length <= 0
+    newSearchName.length == 0
       ? person
       : person.filter((person) =>
           person.name.toLowerCase().includes(newSearchName.toLowerCase())
